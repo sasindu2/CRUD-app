@@ -16,11 +16,11 @@ class CustomerStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image'=>['nullable'],
+            'image'=>['nullable','image','max:3000'],
             'first_name'=>['required','max:255','string'],
             'last_name'=>['required','max:255','string'],
             'email'=>['required','email'],
-            'phone'=>['required','string'],
+            'phone'=>['required','string','max:10'],
             'bank_account_number'=>['required','numeric'],
             'about'=>['nullable','string','max:255'],
         ];
