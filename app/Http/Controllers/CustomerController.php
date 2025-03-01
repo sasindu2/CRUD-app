@@ -33,7 +33,10 @@ class CustomerController extends Controller
         $customer= new Customer();
 
         if($request->hasFile('image')){
-            $image=$request->file('image')->store('','public');
+            $image=$request->file('image');
+            $fileName=$image->store('','public');
+            $filePath = '/upload/'.$fileName;
+            $customer->image= $filePath;
         }
 
         $customer->first_name=$request->first_name;
