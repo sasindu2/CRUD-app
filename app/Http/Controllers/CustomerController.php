@@ -34,11 +34,11 @@ class CustomerController extends Controller
         
         $customer= new Customer();
 
-        if($request->hasFile('image')){
-            $image=$request->file('image');
-            $fileName=$image->store('','public');
-            $filePath = '/upload/'.$fileName;
-            $customer->image= $filePath;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('upload'), $fileName);  
+            $customer->image = '/upload/' . $fileName;  
         }
 
         $customer->first_name=$request->first_name;
@@ -83,10 +83,10 @@ class CustomerController extends Controller
             // delete pre image
             File::delete(public_path($customer->image));
             // handel update
-            $image=$request->file('image');
-            $fileName=$image->store('','public');
-            $filePath = '/upload/'.$fileName;
-            $customer->image= $filePath;
+            $image = $request->file('image');
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('upload'), $fileName);  
+            $customer->image = '/upload/' . $fileName; 
         }
 
         $customer->first_name=$request->first_name;
@@ -96,6 +96,8 @@ class CustomerController extends Controller
         $customer->bank_account_number=$request->bank_account_number;
         $customer->about=$request->about;
         $customer->save(); 
+
+        return redirect()->route('customer.index');
     }
 
     /**
